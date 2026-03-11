@@ -1,6 +1,6 @@
 # API Dash MCP Server
 
-The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) to interact with your API Dash collections, environments, and history.
+The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) to interact with API Dash collections, environments, and history.
 
 ## Configuration
 
