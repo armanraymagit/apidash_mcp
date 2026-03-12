@@ -1,12 +1,6 @@
 # API Dash MCP Server
 
-The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) to interact with API Dash collections, environments, and history.
-
-## Configuration
-
-The MCP server needs to know where your API Dash Hive database is located. You can specify this using one of the following methods:
-
-
+The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) to interact with API Dash collections, environments, and history
 
 ### Default Path
 
