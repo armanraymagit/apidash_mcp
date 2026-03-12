@@ -6,27 +6,9 @@ The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) 
 
 The MCP server needs to know where your API Dash Hive database is located. You can specify this using one of the following methods:
 
-### 1. Command Line Flag (Recommended)
 
-When running the server, use the `--hive-path` flag to point to your API Dash data directory:
 
-```bash
-dart bin/mcp_server.dart --hive-path "C:\Users\YourUser\Documents\apidash"
-```
-
-### 2. Environment Variable
-
-Set the `APIDASH_HIVE_PATH` environment variable:
-
-```bash
-# Windows
-set APIDASH_HIVE_PATH=C:\Users\YourUser\Documents\apidash
-
-# Linux / macOS
-export APIDASH_HIVE_PATH=/path/to/apidash
-```
-
-### 3. Default Path
+### Default Path
 
 If no path is specified, the server will default to creating and using a `.apidash` directory in your home folder (`~/.apidash`).
 
