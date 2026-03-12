@@ -4,7 +4,7 @@ The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) 
 
 ### Default Path
 
-If no path is specified, the server will default to creating and using a `.apidash` directory in your home folder (`~/.apidash`).
+Check out the [MCP Support Video](https://github.com/armanraymagit/apidash_mcp/blob/bf18d0422ac0aacd91f50ffed7afa8c6c5465c9c/MCP%20Support%20video.mp4) to see the server in action.
 
 ## Integration with Claude Desktop
 
