@@ -1,6 +1,6 @@
-# API Dash MCP Server
+# MCP Server
 
-The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) to interact with API Dash collections, environments, and history
+The MCP (Model Context Protocol) Server allows AI agents (like Claude) to interact with API Dash collections, environments, and history
 
 
 
@@ -18,9 +18,8 @@ To use this server with Claude Desktop, add it to your `claude_desktop_config.js
     "apidash": {
       "command": "dart",
       "args": [
-        "C:\\path\\to\\apidash_mcp_server\\bin\\mcp_server.dart",
-        "--hive-path",
-        "C:\\Users\\YourUser\\Documents\\apidash"
+        "path\\to\\apibin\\mcp_server.dart",
+        
       ]
     }
   }
