@@ -16,9 +16,6 @@ The API Dash MCP Server acts as a bridge between AI models (like Claude) and the
 - **Protocol**: Implements the Model Context Protocol over JSON-RPC 2.0.
 - **Communication**: Uses standard input/output (stdio) for communication with the MCP host.
 
-## Demo Video
-![API Dash MCP Demo](MCP Support video.mp4)
-
 ## Vibe Coding Methodology
 This project was developed using a "Vibe Coding" approach—prioritizing rapid iteration, intuitive design, and AI-assisted development to move from concept to a working server in record time. This methodology focuses on manual verification and "feeling" the UX rather than over-engineering initial prototypes.
 
