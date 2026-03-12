@@ -17,7 +17,7 @@ The API Dash MCP Server acts as a bridge between AI models (like Claude) and the
 - **Communication**: Uses standard input/output (stdio) for communication with the MCP host.
 
 ## Demo Video
-![API Dash MCP Demo](MCP Support video.mp4)
+Check out our [MCP Integration Demo](https://github.com/armanraymagit/apidash_mcp/blob/bf18d0422ac0aacd91f50ffed7afa8c6c5465c9c/MCP%20Support%20video.mp4) to see the native Dart MCP server in action.
 
 ## Vibe Coding Methodology
 This project was developed using a "Vibe Coding" approach—prioritizing rapid iteration, intuitive design, and AI-assisted development to move from concept to a working server in record time. This methodology focuses on manual verification and "feeling" the UX rather than over-engineering initial prototypes.

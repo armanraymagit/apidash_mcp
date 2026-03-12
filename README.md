@@ -11,6 +11,10 @@ The MCP server needs to know where your API Dash Hive database is located. You c
 
 If no path is specified, the server will default to creating and using a `.apidash` directory in your home folder (`~/.apidash`).
 
+## Demo Video
+
+Check out the [MCP Support Video](https://github.com/armanraymagit/apidash_mcp/blob/bf18d0422ac0aacd91f50ffed7afa8c6c5465c9c/MCP%20Support%20video.mp4) to see the server in action.
+
 ## Integration with Claude Desktop
 
 To use this server with Claude Desktop, add it to your `claude_desktop_config.json` file. 
