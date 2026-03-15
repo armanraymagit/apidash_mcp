@@ -1,6 +1,12 @@
 # API Dash MCP Server
 
+[![Repo](https://img.shields.io/badge/Repository-apidash__mcp-blue?style=for-the-badge&logo=github)](https://github.com/armanraymagit/apidash_mcp.git)
+
 The API Dash MCP (Model Context Protocol) Server allows AI agents (like Claude) to interact with API Dash collections, environments, and history.
+
+## GitHub Repository
+
+This project is part of a monorepo: [armanraymagit/apidash_mcp](https://github.com/armanraymagit/apidash_mcp.git)
 
 ## Configuration
 
