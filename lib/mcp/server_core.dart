@@ -20,8 +20,15 @@ class ServerCore {
   late final json_rpc.Server _server;
   ResourceHandler? _resourceHandler;
   ToolHandler? _toolHandler;
+  
+  final List<ToolDescriptor> _registeredTools = [];
+  final Map<String, Future<ToolResponse> Function(Map<String, dynamic>)> _toolCallbacks = {};
+
+  void Function()? onConnect;
+  void Function()? onDisconnect;
 
   ServerCore(this.transport) {
+    // ... existing constructor code ...
     final channel = StreamChannel<String>(
       transport.stream,
       StreamController<String>()..stream.listen(transport.send),
@@ -31,6 +38,7 @@ class ServerCore {
     _server.registerMethod('ping', () => {'ok': true});
 
     _server.registerMethod('initialize', (parameters) {
+      if (onConnect != null) onConnect!();
       return {
         'protocolVersion': '2024-11-05',
         'capabilities': {
@@ -50,7 +58,6 @@ class ServerCore {
       return resources.map((r) => r.toJson()).toList();
     });
 
-    // MCP 2025 protocol alias
     _server.registerMethod('resources/list', () async {
       if (_resourceHandler == null) return {'resources': []};
       final resources = await _resourceHandler!.listResources();
@@ -65,7 +72,6 @@ class ServerCore {
       return resource.toJson();
     });
 
-    // MCP 2025 protocol alias
     _server.registerMethod('resources/read', (parameters) async {
       if (_resourceHandler == null) throw json_rpc.RpcException(-32601, 'No resource handler');
       final uri = parameters['uri'].asString;
@@ -75,34 +81,51 @@ class ServerCore {
     });
 
     _server.registerMethod('listTools', () async {
-      if (_toolHandler == null) return [];
-      final tools = await _toolHandler!.listTools();
+      final tools = <ToolDescriptor>[];
+      if (_toolHandler != null) {
+        tools.addAll(await _toolHandler!.listTools());
+      }
+      tools.addAll(_registeredTools);
       return tools.map((t) => t.toJson()).toList();
     });
 
-    // MCP 2025 protocol alias
     _server.registerMethod('tools/list', () async {
-      if (_toolHandler == null) return {'tools': []};
-      final tools = await _toolHandler!.listTools();
+      final tools = <ToolDescriptor>[];
+      if (_toolHandler != null) {
+        tools.addAll(await _toolHandler!.listTools());
+      }
+      tools.addAll(_registeredTools);
       return {'tools': tools.map((t) => t.toJson()).toList()};
     });
 
     _server.registerMethod('invokeTool', (parameters) async {
-      if (_toolHandler == null) throw json_rpc.RpcException(-32601, 'No tool handler');
       final name = parameters['name'].asString;
       final params = parameters['parameters'].asMap.cast<String, dynamic>();
+      
+      if (_toolCallbacks.containsKey(name)) {
+        final response = await _toolCallbacks[name]!(params);
+        return response.toJson();
+      }
+
+      if (_toolHandler == null) throw json_rpc.RpcException(-32601, 'No tool handler');
       final response = await _toolHandler!.invokeTool(name, params);
       return response.toJson();
     });
 
-    // MCP 2025 protocol alias
     _server.registerMethod('tools/call', (parameters) async {
-      if (_toolHandler == null) throw json_rpc.RpcException(-32601, 'No tool handler');
       final name = parameters['name'].asString;
       final args = (parameters['arguments'].value as Map? ?? {}).cast<String, dynamic>();
       
+      Future<ToolResponse> invoke() async {
+        if (_toolCallbacks.containsKey(name)) {
+          return await _toolCallbacks[name]!(args);
+        }
+        if (_toolHandler == null) throw json_rpc.RpcException(-32601, 'No tool handler');
+        return await _toolHandler!.invokeTool(name, args);
+      }
+
       try {
-        final response = await _toolHandler!.invokeTool(name, args);
+        final response = await invoke();
         if (response.error != null) {
           return {
             'isError': true,
@@ -132,6 +155,11 @@ class ServerCore {
     });
   }
 
+  void registerTool(ToolDescriptor tool, Future<ToolResponse> Function(Map<String, dynamic>) callback) {
+    _registeredTools.add(tool);
+    _toolCallbacks[tool.name] = callback;
+  }
+
   void setResourceHandler(ResourceHandler handler) {
     _resourceHandler = handler;
   }
@@ -140,5 +168,8 @@ class ServerCore {
     _toolHandler = handler;
   }
 
-  Future<void> start() => _server.listen();
+  Future<void> start() async {
+    await _server.listen();
+    if (onDisconnect != null) onDisconnect!();
+  }
 }

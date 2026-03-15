@@ -103,11 +103,13 @@ class ToolDescriptor {
   final String name;
   final String description;
   final Map<String, dynamic> inputSchema;
+  final McpUiToolMeta? uiMeta;
 
   ToolDescriptor({
     required this.name,
     required this.description,
     required this.inputSchema,
+    this.uiMeta,
   });
 
   factory ToolDescriptor.fromJson(Map<String, dynamic> json) {
@@ -115,6 +117,9 @@ class ToolDescriptor {
       name: json['name'] as String,
       description: json['description'] as String,
       inputSchema: json['inputSchema'] as Map<String, dynamic>,
+      uiMeta: json['uiMeta'] != null 
+          ? McpUiToolMeta.fromJson(json['uiMeta'] as Map<String, dynamic>) 
+          : null,
     );
   }
 
@@ -123,6 +128,73 @@ class ToolDescriptor {
       'name': name,
       'description': description,
       'inputSchema': inputSchema,
+      if (uiMeta != null) 'uiMeta': uiMeta!.toJson(),
+    };
+  }
+}
+
+class McpUiToolMeta {
+  final String? icon;
+  final String? color;
+  final List<String>? categories;
+  final bool? isDestructive;
+  final McpUiPermissions? permissions;
+
+  McpUiToolMeta({
+    this.icon,
+    this.color,
+    this.categories,
+    this.isDestructive,
+    this.permissions,
+  });
+
+  factory McpUiToolMeta.fromJson(Map<String, dynamic> json) {
+    return McpUiToolMeta(
+      icon: json['icon'] as String?,
+      color: json['color'] as String?,
+      categories: (json['categories'] as List?)?.cast<String>(),
+      isDestructive: json['isDestructive'] as bool?,
+      permissions: json['permissions'] != null 
+          ? McpUiPermissions.fromJson(json['permissions'] as Map<String, dynamic>) 
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (icon != null) 'icon': icon,
+      if (color != null) 'color': color,
+      if (categories != null) 'categories': categories,
+      if (isDestructive != null) 'isDestructive': isDestructive,
+      if (permissions != null) 'permissions': permissions!.toJson(),
+    };
+  }
+}
+
+class McpUiPermissions {
+  final bool? needsNetwork;
+  final bool? needsFileSystem;
+  final List<String>? requiredEnv;
+
+  McpUiPermissions({
+    this.needsNetwork,
+    this.needsFileSystem,
+    this.requiredEnv,
+  });
+
+  factory McpUiPermissions.fromJson(Map<String, dynamic> json) {
+    return McpUiPermissions(
+      needsNetwork: json['needsNetwork'] as bool?,
+      needsFileSystem: json['needsFileSystem'] as bool?,
+      requiredEnv: (json['requiredEnv'] as List?)?.cast<String>(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (needsNetwork != null) 'needsNetwork': needsNetwork,
+      if (needsFileSystem != null) 'needsFileSystem': needsFileSystem,
+      if (requiredEnv != null) 'requiredEnv': requiredEnv,
     };
   }
 }
