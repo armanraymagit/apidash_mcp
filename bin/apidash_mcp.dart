@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:args/args.dart';
-import '../lib/mcp/server_core.dart';
-import '../lib/mcp/transport.dart';
-import '../lib/mcp_server/server.dart';
+import 'package:apidash_mcp_server/mcp/server_core.dart';
+import 'package:apidash_mcp_server/mcp/transport.dart';
+import 'package:apidash_mcp_server/mcp_server/server.dart';
 
 void main(List<String> arguments) async {
   final parser = ArgParser()
